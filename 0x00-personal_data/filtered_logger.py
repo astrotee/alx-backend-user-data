@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 "Regex-ing"
+import os
 import re
 import logging
 from typing import List
+import mysql.connector
 
 
 PII_FIELDS = ["name", "email", "phone", "ssn", "password"]
@@ -24,6 +26,18 @@ def get_logger() -> logging.Logger:
     handler.setFormatter(RedactingFormatter(PII_FIELDS))
     logger.addHandler(handler)
     return logger
+
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    "get a db connection"
+    host = os.environ.get('PERSONAL_DATA_DB_HOST', 'localhost')
+    username = os.environ.get('PERSONAL_DATA_DB_USERNAME', 'root')
+    password = os.environ.get('PERSONAL_DATA_DB_PASSWORD', '')
+    database = os.environ.get('PERSONAL_DATA_DB_NAME', 'holberton')
+
+    return mysql.connector.connection.MySQLConnection(host=host, user=username,
+                                                      password=password,
+                                                      database=database)
 
 
 class RedactingFormatter(logging.Formatter):
