@@ -57,3 +57,20 @@ class RedactingFormatter(logging.Formatter):
         record.msg = filter_datum(self.fields, self.REDACTION,
                                   record.msg, self.SEPARATOR)
         return super(RedactingFormatter, self).format(record)
+
+
+def main():
+    logger = get_logger()
+    cnx = get_db()
+    cur = cnx.cursor(dictionary=True)
+    cur.execute("SELECT * FROM users")
+    columns = [col[0] for col in cur.column_names]
+    for user in cur.fetchall():
+        msg = ''.join(f"{col}={user[col]};" for col in columns)
+        logger.info(msg)
+    cur.close()
+    cnx.close()
+
+
+if __name__ == "__main__":
+    main()
