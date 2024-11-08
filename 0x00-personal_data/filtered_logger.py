@@ -60,6 +60,7 @@ class RedactingFormatter(logging.Formatter):
 
 
 def main():
+    "main function"
     logger = get_logger()
     cnx = get_db()
     cur = cnx.cursor(dictionary=True)
