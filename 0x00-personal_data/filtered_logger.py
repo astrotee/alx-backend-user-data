@@ -65,9 +65,8 @@ def main():
     cnx = get_db()
     cur = cnx.cursor(dictionary=True)
     cur.execute("SELECT * FROM users")
-    columns = [col[0] for col in cur.column_names]
     for user in cur.fetchall():
-        msg = ''.join(f"{col}={user[col]};" for col in columns)
+        msg = ''.join(f"{col}={value};" for col, value in user.items())
         logger.info(msg)
     cur.close()
     cnx.close()
