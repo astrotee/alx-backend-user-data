@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 "Session Authentication"
+from typing import Dict
 from uuid import uuid4
 from api.v1.auth.auth import Auth
 
 
 class SessionAuth(Auth):
     "Session Authentication"
-    user_id_by_session_id = {}
+    user_id_by_session_id: Dict[str, str] = {}
 
     def create_session(self, user_id: str = None) -> str:
         "create a user session"
@@ -15,3 +16,9 @@ class SessionAuth(Auth):
         id = str(uuid4())
         SessionAuth.user_id_by_session_id[id] = user_id
         return id
+
+    def user_id_for_session_id(self, session_id: str = None) -> str:
+        "get the user_id of a session"
+        if session_id is None or not isinstance(session_id, str):
+            return None
+        return SessionAuth.user_id_by_session_id.get(session_id)
