@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 "Session Authentication"
-from typing import Dict
+from typing import Dict, Any
 from uuid import uuid4
 from api.v1.auth.auth import Auth
 from models.user import User
@@ -8,7 +8,7 @@ from models.user import User
 
 class SessionAuth(Auth):
     "Session Authentication"
-    user_id_by_session_id: Dict[str, str] = {}
+    user_id_by_session_id: Dict[str, Any] = {}
 
     def create_session(self, user_id: str = None) -> str:
         "create a user session"
