@@ -10,6 +10,7 @@ import os
 
 
 app = Flask(__name__)
+app.secret_key = b'l;#@%#)ksdfaj490jklsaf0nglsa;934j'
 app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 auth = None
