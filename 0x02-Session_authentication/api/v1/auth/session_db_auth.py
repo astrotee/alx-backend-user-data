@@ -25,6 +25,7 @@ class SessionDBAuth(SessionExpAuth):
         session_id = self.session_cookie(request)
         if session_id is None:
             return False
+        UserSession.load_from_file()
         user_sessions = UserSession.search({'session_id': session_id})
         if len(user_sessions) == 0:
             return None
